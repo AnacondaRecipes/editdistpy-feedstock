@@ -1,0 +1,45 @@
+{% set name = "editdistpy" %}
+{% set version = "0.1.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+build:
+  skip: true  # [py2k]
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/editdistpy-{{ version }}.tar.gz
+  sha256: b3cad07319d79fe8b3ba6bf92293de962932917d88e9c624df7b6a44bddf1dcc
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}        # [not win]
+    - {{ compiler('m2w64_cxx') }}  # [win]
+
+  host:
+    - cython
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - editdistpy
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/mammothb/editdistpy
+  summary: Fast Levenshtein and Damerau optimal string alignment algorithms.
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - bkreider
